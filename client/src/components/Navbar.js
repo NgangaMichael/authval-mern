@@ -43,11 +43,24 @@ export default function Navbar() {
                     <Link className="nav-link active" aria-current="page" to="/allblogs">Home</Link>
                     </li>
                     {designation === 'admin' &&
-                    <li className="nav-item">
-                    <Link className="nav-link" to="/addblog">Add blog</Link>
-                    </li>}
+                    <>
+                      <li className="nav-item">
+                        <Link className="nav-link" to="/addblog">Add blog</Link>
+                      </li>
+                      <li>
+                        <Link className="nav-link" to="/adduser">Add User</Link>
+                      </li>
+                      <li>
+                        <Link className="nav-link" to="/allusers">Users</Link>
+                      </li>
+                    </>
+                    
+                    }
                     
                 </ul>
+            
+                <Link className="nav-link active" to="/profile">Profile</Link>
+          
                 <button className='btn btn-danger btn-sm' onClick={handleLogout}>Log out</button>
                 </div>
             </div>

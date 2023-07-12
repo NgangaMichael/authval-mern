@@ -7,7 +7,7 @@ export default function Bloglist({blogs}) {
     const { username, email } = location.state || {}; // Get the username and email from the location state
 
   return (
-    <div className='container mt-3'>
+    <div className=''>
         {username && (
           <div className="welcome-message">
             <h5>Welcome, {username}!</h5>

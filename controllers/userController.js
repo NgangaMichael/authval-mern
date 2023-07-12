@@ -8,6 +8,36 @@ const createToken = ({_id}) => {
     return jwt.sign({_id}, secret,  {expiresIn: expiry * 1000})
 }
 
+exports.userdetails = async (req, res) => {
+    try {
+      const token = req.headers.authorization.split(' ')[1]; // Get the JWT token from headers
+      const decoded = jwt.verify(token, secret); // Verify the token
+  
+      // Log the decoded token
+    //   console.log(decoded);
+  
+      const user = await Users.findById(decoded._id); // Find the user based on the decoded token
+    //   console.log(user);
+      res.json({ user });
+    } catch (error) {
+      res.status(500).json({ message: 'Internal Server Error' });
+      console.log('Error on fetching user profile:', error);
+    }
+  };
+
+
+exports.edituserdetails = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {username, email, password} = req.body;
+        const userdetails = await Users.findById(id)
+    
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
+
 exports.adduser = async (req, res) => {
     try {
         const {username, email, password, designation} = req.body;
@@ -34,16 +64,6 @@ exports.allusers = async (req, res) => {
     }
 }
 
-exports.userdetails = async (req, res) => {
-    try {
-        const {id} = req.params;
-        const user = await Users.findById(id)
-        res.json(user);
-    } catch (error) {
-        console.log('Err on user details', error)
-    }
-}
-
 exports.edituser = async (req, res) => {
     try {
         const {id} = req.params;
@@ -57,11 +77,12 @@ exports.edituser = async (req, res) => {
 exports.updateuser = async (req, res) => {
     try {
         const {id} = req.params;
-        const {username, email, password} = req.body;
+        const {username, email, designation, password} = req.body;
         const hashpass = await bcrypt.hash(password, 12);
         await Users.findByIdAndUpdate(id, {
             username: username,
             email: email,
+            designation: designation,
             password: hashpass
         })
     } catch (error) {
